@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GXCODE Prototype</title>
+
+<!-- Blockly -->
+<script src="https://unpkg.com/blockly/blockly.min.js"></script>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f111a;
+  color: white;
+}
+
+header {
+  padding: 10px;
+  background: #141a2b;
+  text-align: center;
+  font-size: 20px;
+}
+
+#blocklyDiv {
+  height: 500px;
+  width: 100%;
+}
+
+#codeArea {
+  height: 220px;
+  width: 100%;
+  background: black;
+  color: #00ff00;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow: auto;
+  font-family: monospace;
+}
+
+button {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin: 10px;
+  border-radius: 4px;
+}
+</style>
+</head>
+
+<body>
+
+<header>GXCODE — Real Blockly HTML Coder</header>
+
+<div id="blocklyDiv"></div>
+
+<button onclick="generateCode()">Generate HTML</button>
+
+<pre id="codeArea"></pre>
+
+<!-- Real Blockly Toolbox -->
+<xml id="toolbox" style="display:none">
+  <category name="Logic">
+    <block type="controls_if"></block>
+    <block type="logic_compare"></block>
+    <block type="logic_boolean"></block>
+  </category>
+
+  <category name="Loops">
+    <block type="controls_repeat_ext"></block>
+  </category>
+
+  <category name="Math">
+    <block type="math_number"></block>
+    <block type="math_arithmetic"></block>
+  </category>
+
+  <category name="Text">
+    <block type="text"></block>
+    <block type="text_print"></block>
+  </category>
+</xml>
+
+<script>
+const workspace = Blockly.inject('blocklyDiv', {
+  toolbox: document.getElementById('toolbox'),
+  trashcan: true,
+  scrollbars: true
+});
+
+function generateCode() {
+  const jsCode = Blockly.JavaScript.workspaceToCode(workspace);
+
+  const html =
+`<!DOCTYPE html>
+<html>
+<head>
+<title>GXCODE Project</title>
+</head>
+<body>
+
+<script>
+${jsCode}
+</script>
+
+</body>
+</html>`;
+
+  document.getElementById("codeArea").textContent = html;
+}
+</script>
+
+</body>
+</html>
